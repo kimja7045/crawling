@@ -1,0 +1,30 @@
+{% if title %}
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{title }}</title>
+    </head>
+    <body style="margin: auto; max-width: 1024px">
+    <div class="title" style="margin-bottom: 50px; padding-top: 30px">
+        <div style="font-size: 2rem">{{ title }}</div>
+    </div>
+
+    <div class="content">
+        {% for content in body %}
+            <ul>{{ content}}</ul>
+        {% endfor %}
+        {% for image in images %}
+            <ul>
+                <img src="{{ image }}" height="505" width="504">
+            </ul>
+        {% endfor %}
+    </div>
+    </body>
+    </html>
+
+{% else %}
+    <p>뉴스 정보가 없습니다.</p>
+{% endif %}
+
+

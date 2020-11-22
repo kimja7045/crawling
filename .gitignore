@@ -1,0 +1,16 @@
+*.py[co]
+.*.sw[po]
+.venv
+venv
+db.sqlite3
+.idea
+.python-version
+local_settings.py
+/static
+/log
+__pycache__
+debug.log
+dumped_data/
+media/
+test/
+local/
