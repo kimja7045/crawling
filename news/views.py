@@ -9,11 +9,18 @@ from wordcloud import WordCloud, STOPWORDS
 from konlpy.tag import Okt
 from collections import Counter
 import matplotlib.pyplot as plt
+
+html = requests.get('http://www.dailypop.kr/news/articleList.html')
+soup = BeautifulSoup(html.content, 'html.parser')
+url_list = soup.find(class_='article-list').find_all('a')
+for link in url_list:
+    # print(link.text.strip())
+    print(link.get('href')+'\n')
+
 res = requests.get('http://www.dailypop.kr/news/articleView.html?idxno=47220')
 soup = BeautifulSoup(res.content, 'html.parser')
 
 title = soup.find('title')
-# body = soup.find(class_='ab_subtitle').find_all('h2')
 body = soup.find(id='article-view-content-div').find_all('p')
 images = soup.find(id='article-view-content-div').find_all('img')
 imgs = []
@@ -28,23 +35,23 @@ for i, e in enumerate(body):
     content.append(e.get_text())
     stringTypeContent += e.get_text()
 
-wc = WordCloud(font_path='/Library/Fonts/HMKMMAG.TTF', background_color='white', width=500, height=500, max_words=20, max_font_size=100)
-okt = Okt()
-noun = okt.nouns(stringTypeContent)
-count = Counter(noun)
-
-noun_list = count.most_common()
-# for v in noun_list
-    # print(v)
-
-# print(dict(noun_list))
-# wc = wc.generate(stringTypeContent)
-wc.generate_from_frequencies(dict(noun_list))
-wc.to_file('./wc.png')
-plt.figure(figsize=(10, 8))
-plt.imshow(wc)
-plt.axis('off')
-plt.show()
+# wc = WordCloud(font_path='/Library/Fonts/HMKMMAG.TTF', background_color='white', width=500, height=500, max_words=20, max_font_size=100)
+# okt = Okt()
+# noun = okt.nouns(stringTypeContent)
+# count = Counter(noun)
+#
+# noun_list = count.most_common()
+# # for v in noun_list
+#     # print(v)
+#
+# # print(dict(noun_list))
+# # wc = wc.generate(stringTypeContent)
+# wc.generate_from_frequencies(dict(noun_list))
+# wc.to_file('./wc.png')
+# plt.figure(figsize=(10, 8))
+# plt.imshow(wc)
+# plt.axis('off')
+# plt.show()
 
 def index(request):
     # return HttpResponse('검색하실 url을 입력해주세요.')
