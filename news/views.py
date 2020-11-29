@@ -9,7 +9,7 @@ from konlpy.tag import Okt
 from collections import Counter
 import matplotlib.pyplot as plt
 
-# url_list insert
+# url_list, 텍스트 파일 생성(쓰기) 및 url_list 100개 저장
 f = open('url.txt', 'w')
 page_counter = 1
 url_count = 0
@@ -29,7 +29,7 @@ for i in range(1, 6):
         url_count += 1
 f.close()
 
-# url_list read
+# url_list read, 텍스트 파일 읽기 및 각 기사(url)의 내용들을 한 변수에 저장
 stringTypeContent = ''
 with open('url.txt', 'r') as file:
     for line in file:
@@ -42,6 +42,7 @@ with open('url.txt', 'r') as file:
             stringTypeContent += e.get_text()
 file.close()
 
+# 워드클라우드 설정 및 키워드 빈도별로 분류
 wc = WordCloud(font_path='/Library/Fonts/HMKMMAG.TTF', background_color='white',
                width=500, height=500, max_words=20, max_font_size=100, stopwords=spwords)
 okt = Okt()
@@ -49,7 +50,7 @@ noun = okt.nouns(stringTypeContent)
 count = Counter(noun)
 noun_list = count.most_common()
 
-# stopwords 키워드 제거
+# stopwords 키워드 제거(워드클라우드 분석에 도움안되는 한 글자의 키워드들 제거)
 temp = []
 for i, noun in enumerate(dict(noun_list)):
     if noun == '이' or noun == '위' or noun == '를' or noun == '등' or noun == '것' or noun == '로' or noun == '수':
@@ -57,6 +58,7 @@ for i, noun in enumerate(dict(noun_list)):
 for i, e in enumerate(temp):
     noun_list.remove(temp[i])
 
+# 워드 클라우드 생성
 wc.generate_from_frequencies(dict(noun_list))
 wc.to_file('./wc.png')
 plt.figure(figsize=(10, 8))
